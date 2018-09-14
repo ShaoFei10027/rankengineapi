@@ -7,6 +7,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+use App\Http\Requests;
+
 class RegisterController extends Controller
 {
     /*
@@ -20,7 +25,7 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    //use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
@@ -36,7 +41,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        //$this->middleware('guest');
     }
 
     /**
@@ -68,4 +73,26 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    /*public function register(Request $request)
+    {
+      //$this->validator($request->all())->validate();
+      $user = $this->create($request->all());
+      $token = JWTAuth::fromUser($user);
+      return ["token" => $token];
+    }*/
+
+    public function register(Request $request)
+        {
+            $newUser = [
+                'email' => $request->input('email'),
+                'name' => $request->input('name'),
+                'password' => bcrypt($request->input('password'))
+            ];
+
+            $user = User::create($newUser);
+            $token = JWTAuth::fromUser($user);
+
+            return responseSuccess($token);
+        }
 }
