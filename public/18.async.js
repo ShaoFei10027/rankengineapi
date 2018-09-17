@@ -1,0 +1,1 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[18],{tyd1:function(e,t,n){"use strict";var u=n("TqRt");Object.defineProperty(t,"__esModule",{value:!0}),t.default=void 0;var a=u(n("q1tI")),o=n("MuoO");function d(){return a.default.createElement("div",null,"Hi, Real Time Alter!")}var i=(0,o.connect)()(d);t.default=i}}]);
