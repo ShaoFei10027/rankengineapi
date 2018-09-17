@@ -5,6 +5,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Cookie;
 
 use App\Http\Requests;
 use App\Transformers\UserTransformer;
@@ -81,10 +82,6 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
-        return response([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
+        $response = new Response();
     }
 }

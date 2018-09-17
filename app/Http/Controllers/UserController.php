@@ -14,13 +14,10 @@ class UserController extends Controller
 {
     public function currentUser(Request $request)
     {
-        // 辅助函数
-        $user = auth()->user();
-        
-        // Facade
-        $user = JWTAuth::parseToken()->authenticate();
         Auth::check();
-        return response($user);
+        $user = JWTAuth::parseToken()->authenticate();
+        
+        return $user;
     }
 
     public function modify(Request $request)
