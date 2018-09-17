@@ -16,8 +16,8 @@ return [
     'allowedOrigins' => ['*'],
     'allowedOriginsPatterns' => ['*'],
     'allowedHeaders' => ['*'],
-    'allowedMethods' => ['POST'],
-    'exposedHeaders' => ['Authorization', 'Cookie'],
+    'allowedMethods' => ['*'],
+    'exposedHeaders' => [],
     'maxAge' => 0,
 
 ];
