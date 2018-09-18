@@ -82,9 +82,14 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
-        $response = new Response();
+        $user = Auth::user();
+        $Authority = $user['authority'];
+        //$response = new Response();
         $expires_in = auth('api')->factory()->getTTL() * 60;
         $cookie = cookie('access_token', $token, $expires_in);
-        return $response->withCookie($cookie);
+        return response()->json([
+            'status' => 'ok',
+            'currentAuthority' => $Authority
+        ])->withCookie($cookie);
     }
 }

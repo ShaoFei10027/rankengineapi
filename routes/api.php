@@ -18,9 +18,12 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers'], function ($api) {
         return 'It is ok';
     });
 
-    $api->post('currentUser', 'UserController@currentUser');
+    $api->get('currentUser', 'UserController@currentUser');
+    $api->get('users', 'UserController@users');
     $api->post('register', 'AuthController@register');
     $api->post('login', 'AuthController@login');
     $api->post('logout', 'AuthController@logout');
+
+    $api->get('newAcclist', 'newAccount@list');
 
 });
