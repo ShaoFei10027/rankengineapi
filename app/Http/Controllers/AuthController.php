@@ -31,7 +31,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // 验证规则，由于业务需求，这里我更改了一下登录的用户名，使用手机号码登录
+        // 验证规则
         $rules = [
             'username' => 'required|string',
             'password' => 'required|string|min:6|max:20',

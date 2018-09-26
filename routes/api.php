@@ -24,6 +24,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers'], function ($api) {
     $api->post('login', 'AuthController@login');
     $api->post('logout', 'AuthController@logout');
 
-    $api->get('newAcclist', 'newAccount@list');
 
+    $api->post('createCampaign', 'CampaignController@create');
+    $api->post('getCampaign', 'CampaignController@getRecords');
 });

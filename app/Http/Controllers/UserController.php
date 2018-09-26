@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 
@@ -45,6 +46,8 @@ class UserController extends Controller
     {
         Auth::check();
         $user = JWTAuth::parseToken()->authenticate();
+        $name = DB::table('account')->where('id', $user['account_id'])->value('name');
+        $user['name'] = $name;
         
         return $user;
     }
