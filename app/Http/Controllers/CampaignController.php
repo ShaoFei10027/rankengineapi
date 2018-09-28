@@ -22,15 +22,34 @@ class CampaignController extends Controller
     public function getRecords(Request $request)
     {
     	
-    	$account_id = $this->user['account_id'];
+    	$account_id = $this->user('account_id');
+        $filter = array(
+            'account_id' => $account_id, 
+            'is_del'     => 0,
+        );
     	return $this->table
-    		->where('account_id', $account_id)
+    		->where($filter)
     		->get();
     }
 
-    public function create(Request $request)
+    public function doAction(Request $request)
     {
-    	$data = $request->all();
+        $method = $request->input('method');
+        $data = $request->input('all');
+        unset($data['method']);
+
+        if ($method == 'add') {
+            $this->add($data);
+        } elseif ($method == 'update') {
+            $this->update($data);
+        } elseif ($method == 'delete') {
+            $this->delete($data);
+        }
+    }
+
+    protected function add($data)
+    {
+    	//$data = $request->all();
         $account_id = $this->user['account_id'];
     	foreach ($data as $key => $value) {
     		if (is_array($value)){
@@ -40,5 +59,21 @@ class CampaignController extends Controller
         $data['account_id'] = $account_id;
         $id = $this->table->insertGetId($data);
         return $id;
+    }
+
+    protected function update($data)
+    {
+        $account_id = $this->user['account_id'];
+        return $this->table
+            ->where('account_id', $account_id)
+            ->update($data);
+    }
+
+    protected function delete($data)
+    {
+        $account_id = $this->user['account_id'];
+        return $this->table
+            ->where('account_id', $account_id)
+            ->update(['is_del', 1]);
     }
 }

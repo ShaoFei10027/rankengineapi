@@ -16,6 +16,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->table = DB::table('user');
     }
 
     public function users()
@@ -52,9 +53,35 @@ class UserController extends Controller
         return $user;
     }
 
-    public function modify(Request $request)
+    public function changeBasic(Request $request)
     {
-        return 0;
+        $user = JWTAuth::parseToken()->authenticate();
+        $uid  = $user['id'];
+        $data = $request->all();
+        return $this->table
+            ->where('id', $uid)
+            ->update($data);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = JWTAuth::parseToken()->authenticate();
+        $uid  = $user['id'];
+        $old = $request->input('old_pass');
+        $new = $request->input('new_pass');
+        $pass = $this->table->where('id', $uid)->value('password');
+        if(!Hash::check($old, $pass)){
+            return response([
+                'msg' => 'password is wrong!'
+            ]);
+        }
+        $update = array(
+            'password'  =>bcrypt($new),
+        );
+        return $this->table
+            ->where('id', $uid)
+            ->update($update);
+
     }
 
 }

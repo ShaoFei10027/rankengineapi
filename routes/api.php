@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Crypt;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,16 +15,27 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers'], function ($api) {
 
     $api->get('test', function () {
-        return 'It is ok';
+        if(Hash::check('123456', '$2y$10$LXRp7bnaWTN8X5NrY0/iyO..jwEF1EG2Fu4KBNxoHojDSbbHnPFMS')){
+            return 'It is ok';
+        }
     });
 
-    $api->get('currentUser', 'UserController@currentUser');
-    $api->get('users', 'UserController@users');
     $api->post('register', 'AuthController@register');
     $api->post('login', 'AuthController@login');
     $api->post('logout', 'AuthController@logout');
 
+    $api->get('currentUser', 'UserController@currentUser');
+    $api->get('users', 'UserController@users');
+    $api->post('changeBasic', 'UserController@changeBasic');
+    $api->post('changePassword', 'UserController@changePassword');
 
-    $api->post('createCampaign', 'CampaignController@create');
-    $api->post('getCampaign', 'CampaignController@getRecords');
+
+    
+
+
+    //$api->post('createCampaign', 'CampaignController@create');
+    //$api->post('getCampaign', 'CampaignController@getRecords');
+
+    $api->get('setting', 'CampaignController@getRecords');
+    $api->post('setting', 'CampaignController@doAction');
 });
